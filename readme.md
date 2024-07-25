@@ -1,6 +1,8 @@
 # STM32F042
 
 ## 破解倒挡
+波特率：500K  
+CANID: 标准帧 数据帧 0x2E7
 
 |data 2 3|事件|
 |---|---|
@@ -39,5 +41,10 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *handcan)
     }
   }
 }
+
+
+
+HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,control);
+
 ```
 
