@@ -72,7 +72,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *handcan)
     {
       if (RxMeg.StdId == 0x2e7)
       {
-        if (Data[2] == 3 && ((Data[3] & 0xFC) == 4))
+        if (Data[2] == 0x30 && ((Data[3] & 0xFD) == 4))
         {
           control = 1;
         }
@@ -88,7 +88,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *handcan)
 
 void CAN_Config(void)
 {
-  CAN_FilterTypeDef hCAN1_Filter; // CAN1滤波器
+  CAN_FilterTypeDef hCAN1_Filter; // CAN滤波器
 	hCAN1_Filter.FilterIdHigh = 0x02E7 << 5;
 	hCAN1_Filter.FilterIdLow = 0;
 	hCAN1_Filter.FilterMaskIdHigh = 0x02E8 << 5;
@@ -137,10 +137,20 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_CAN_Init();
-  MX_USART2_UART_Init();
+  // MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Transmit(&huart2,(uint8_t *)"test\n",6,100);
   CAN_Config();
+  // HAL_UART_Transmit(&huart2,(uint8_t *)"test\n",6,100);
+	// uint32_t TxMailbox;
+  // CAN_TxHeaderTypeDef TxHeader;
+  // uint8_t TxData[8] = {1,2,3,4,5,6,7,8};
+	// TxHeader.StdId = 0x2e7;
+	// // TxHeader.ExtId = 0x120a;
+	// TxHeader.RTR = CAN_RTR_DATA;
+	// TxHeader.IDE = CAN_ID_STD;
+	// TxHeader.DLC = 8;
+	// TxHeader.TransmitGlobalTime = DISABLE;
+	// HAL_CAN_AddTxMessage(&hcan, &TxHeader, TxData, &TxMailbox);
   /* USER CODE END 2 */
 
   /* Infinite loop */
